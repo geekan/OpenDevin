@@ -6,9 +6,48 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+[demo-video.webm](https://github.com/OpenDevin/OpenDevin/assets/38853559/5b1092cc-3554-4357-a279-c2a2e9b352ad)
+
+
 ## Mission 🎯
 Welcome to OpenDevin, an open-source project aiming to replicate [Devin](https://www.cognition-labs.com/introducing-devin), an autonomous AI software engineer who is capable of executing complex engineering tasks and collaborating actively with users on software development projects. This project aspires to replicate, enhance, and innovate upon Devin through the power of the open-source community.
 
+## Work in Progress
+
+OpenDevin is still a work in progress. But you can run the alpha version to see things working end-to-end.
+
+### Requirements
+* [Docker](https://docs.docker.com/engine/install/)
+* [Python](https://www.python.org/downloads/) >= 3.10
+* [NodeJS](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) >= 14.8
+
+### Installation
+```bash
+export OPENAI_API_KEY="..."
+export WORKSPACE_DIR="/path/to/your/project"
+python -m pip install -r requirements.txt
+uvicorn opendevin.server.listen:app --port 3000
+```
+Then in a second terminal:
+```bash
+cd frontend
+npm install
+npm run start -- --port 3001
+```
+
+You'll see OpenDevin running at localhost:3001
+
+### Picking a Model
+We use LiteLLM, so you can run OpenDevin with any foundation model, including OpenAI, Claude, and Gemini.
+LiteLLM has a [full list of providers](https://docs.litellm.ai/docs/providers).
+
+To change the model, set the `LLM_MODEL` and `LLM_API_KEY` environment variables.
+
+For example, to run Claude:
+```bash
+export LLM_API_KEY="your-api-key"
+export LLM_MODEL="claude-3-opus-20240229"
+```
 
 ## 🤔 What is [Devin](https://www.cognition-labs.com/introducing-devin)?
 
@@ -35,8 +74,15 @@ Achieving full replication of production-grade applications with LLMs is a compl
 
 ## 🚀 Next Steps
 
-- **Literature Review:** Conduct a thorough review of existing literature (1-2 weeks).
-- **Community Engagement:** Release the plan to the community, form research groups, and begin collaborative work.
+An MVP demo is urgent for us. Here are the most important things to do:
+
+- UI: a chat interface, a shell demonstrating commands, a browser, etc.
+- Architecture: an agent framework with a stable backend, which can read, write and run simple commands
+- Agent: capable of generating bash scripts, running tests, etc.
+- Evaluation: a minimal evaluation pipeline that is consistent with Devin's evaluation.
+
+After finishing building the MVP, we will move towards research in different topics, including foundation models, specialist capabilities, evaluation, agent studies, etc.
+
 
 ## How to Contribute
 
@@ -45,6 +91,8 @@ OpenDevin is a community-driven project, and we welcome contributions from every
 - **Code Contributions:** Help us develop the core functionalities, frontend interface, or sandboxing solutions.
 - **Research and Evaluation:** Contribute to our understanding of LLMs in software engineering, participate in evaluating the models, or suggest improvements.
 - **Feedback and Testing:** Use the OpenDevin toolset, report bugs, suggest features, or provide feedback on usability.
+
+For details, please check [this document](./CONTRIBUTING.md).
 
 ## Join Us
 We use Slack to discuss. Feel free to fill in the [form](https://forms.gle/758d5p6Ve8r2nxxq6) if you would like to join the Slack organization of OpenDevin. We will reach out shortly if we feel you are a good fit to the current team! 

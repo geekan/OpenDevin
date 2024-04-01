@@ -6,6 +6,7 @@ import Terminal from "./components/Terminal";
 import Planner from "./components/Planner";
 import CodeEditor from "./components/CodeEditor";
 import Browser from "./components/Browser";
+import Errors from "./components/Errors";
 
 const TAB_OPTIONS = ["terminal", "planner", "code", "browser"] as const;
 type TabOption = (typeof TAB_OPTIONS)[number];
@@ -23,36 +24,31 @@ function Tab({ name, active, onClick }: TabProps): JSX.Element {
   );
 }
 
+const tabData = {
+  terminal: {
+    name: "Terminal",
+    component: null,
+  },
+  planner: {
+    name: "Planner",
+    component: <Planner key="planner" />,
+  },
+  code: {
+    name: "Code Editor",
+    component: <CodeEditor key="code" />,
+  },
+  browser: {
+    name: "Browser",
+    component: <Browser key="browser" />,
+  },
+};
+
 function App(): JSX.Element {
   const [activeTab, setActiveTab] = useState<TabOption>("terminal");
-  // URL of browser window (placeholder for now, will be replaced with the actual URL later)
-  const [url] = useState("https://github.com/OpenDevin/OpenDevin");
-  // Base64-encoded screenshot of browser window (placeholder for now, will be replaced with the actual screenshot later)
-  const [screenshotSrc] = useState(
-    "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN0uGvyHwAFCAJS091fQwAAAABJRU5ErkJggg==",
-  );
-
-  const tabData = {
-    terminal: {
-      name: "Terminal",
-      component: <Terminal />,
-    },
-    planner: {
-      name: "Planner",
-      component: <Planner />,
-    },
-    code: {
-      name: "Code Editor",
-      component: <CodeEditor />,
-    },
-    browser: {
-      name: "Browser",
-      component: <Browser url={url} screenshotSrc={screenshotSrc} />,
-    },
-  };
 
   return (
     <div className="app">
+      <Errors />
       <div className="left-pane">
         <ChatInterface />
       </div>
@@ -67,6 +63,8 @@ function App(): JSX.Element {
             />
           ))}
         </div>
+        {/* Keep terminal permanently open - see component for more details */}
+        <Terminal key="terminal" hidden={activeTab !== "terminal"} />
         <div className="tab-content">{tabData[activeTab].component}</div>
       </div>
     </div>
